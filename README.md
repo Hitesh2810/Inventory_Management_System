@@ -141,16 +141,16 @@ The application provides:
 # 📸 Screenshots
 
 ## 🔐 Admin Login
-![Admin Login](./Screenshots/admin login.jpeg)
+![Admin Login](./Screenshots/b.jpeg)
 
 ## 👨‍💼 Admin Dashboard
-![Admin Dashboard](./Screenshots/Admin dashboard.jpeg)
+![Admin Dashboard](./Screenshots/a.jpeg)
 
 ## ✨ Features Page
 ![Features](./Screenshots/Features.jpeg)
 
 ## 🏠 User Home
-![User Home](./Screenshots/User Home.jpeg)
+![User Home](./Screenshots/c.jpeg)
 
 ---
 
