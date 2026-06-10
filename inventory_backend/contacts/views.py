@@ -16,3 +16,10 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
         message.status = 'read'
         message.save(update_fields=['status'])
         return Response(self.get_serializer(message).data)
+
+    @action(detail=True, methods=['patch'], url_path='mark-unread')
+    def mark_unread(self, request, pk=None):
+        message = self.get_object()
+        message.status = 'unread'
+        message.save(update_fields=['status'])
+        return Response(self.get_serializer(message).data)

@@ -11,6 +11,7 @@ import {
   FaBell,
   FaBox,
   FaChair,
+  FaEnvelope,
   FaEye,
   FaHeadphones,
   FaMoon,
@@ -249,7 +250,7 @@ useEffect(() => {
             ["Suppliers", FaBox, "/suppliers", ""],
             ["Sales", FaRupeeSign, "/sales", ""],
             ["Reports", MdReviews, "/reports", ""],
-            ["Reviews", FaStar, "/admin/dashboard", ""],
+            ["Contact Us", FaEnvelope, "/admin/contact-us", ""],
             ["Settings", FaCog, "/admin/dashboard", ""],
           ].map(([item, Icon, path, active]) => (
             <button

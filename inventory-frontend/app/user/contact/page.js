@@ -5,9 +5,9 @@ import axios from "axios";
 
 export default function ContactPage() {
   const [form, setForm] = useState({
-    full_name: "",
+    name: "",
     email: "",
-    phone_number: "",
+    phone: "",
     subject: "",
     message: "",
   });
@@ -25,7 +25,7 @@ export default function ContactPage() {
 
     try {
       await axios.post("http://127.0.0.1:8000/api/contact-messages/", form);
-      setForm({ full_name: "", email: "", phone_number: "", subject: "", message: "" });
+      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
       setStatus("Message submitted successfully.");
     } catch (error) {
       setStatus(error.response?.data?.error || "Unable to submit message.");
@@ -41,9 +41,9 @@ export default function ContactPage() {
         <p className="mt-2 text-slate-300">We&apos;re here to help - send a message and we&apos;ll reply shortly.</p>
 
         <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
-          <input name="full_name" value={form.full_name} onChange={handleChange} required placeholder="Full Name" className="rounded-2xl bg-white/3 p-3 outline-none" />
+          <input name="name" value={form.name} onChange={handleChange} required placeholder="Full Name" className="rounded-2xl bg-white/3 p-3 outline-none" />
           <input name="email" value={form.email} onChange={handleChange} required type="email" placeholder="Email" className="rounded-2xl bg-white/3 p-3 outline-none" />
-          <input name="phone_number" value={form.phone_number} onChange={handleChange} required placeholder="Phone Number" className="rounded-2xl bg-white/3 p-3 outline-none" />
+          <input name="phone" value={form.phone} onChange={handleChange} required placeholder="Phone Number" className="rounded-2xl bg-white/3 p-3 outline-none" />
           <input name="subject" value={form.subject} onChange={handleChange} required placeholder="Subject" className="rounded-2xl bg-white/3 p-3 outline-none" />
           <textarea name="message" value={form.message} onChange={handleChange} required placeholder="Message" className="rounded-2xl bg-white/3 p-3 outline-none h-32" />
           {status ? <p className="text-sm font-semibold text-cyan-200">{status}</p> : null}

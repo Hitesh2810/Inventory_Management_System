@@ -7,13 +7,13 @@ class ContactMessage(models.Model):
         ('read', 'Read'),
     )
 
-    full_name = models.CharField(max_length=120)
+    name = models.CharField(max_length=120)
     email = models.EmailField()
-    phone_number = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30)
     subject = models.CharField(max_length=180)
     message = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='unread')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.full_name} - {self.subject}"
+        return f"{self.name} - {self.subject}"

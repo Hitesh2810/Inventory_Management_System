@@ -8,9 +8,9 @@ import UserNavbar from "@/app/user/components/UserNavbar";
 export default function ContactPage() {
   const [role, setRole] = useState(null);
   const [form, setForm] = useState({
-    full_name: "",
+    name: "",
     email: "",
-    phone_number: "",
+    phone: "",
     subject: "",
     message: "",
   });
@@ -22,7 +22,7 @@ export default function ContactPage() {
       setRole(localStorage.getItem("role"));
       setForm((current) => ({
         ...current,
-        full_name: localStorage.getItem("username") || "",
+        name: localStorage.getItem("username") || "",
         email: localStorage.getItem("email") || "",
       }));
     }, 0);
@@ -45,9 +45,9 @@ export default function ContactPage() {
     try {
       await axios.post("http://127.0.0.1:8000/api/contact-messages/", form);
       setForm({
-        full_name: "",
+        name: "",
         email: "",
-        phone_number: "",
+        phone: "",
         subject: "",
         message: "",
       });
@@ -88,7 +88,7 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="mt-6 space-y-5">
               <label className="block text-sm font-semibold text-slate-200">
                 Full Name
-                <input name="full_name" value={form.full_name} onChange={handleChange} type="text" required placeholder="Your name" className="mt-3 w-full rounded-3xl border border-white/10 bg-[#050816]/70 px-4 py-3 text-white outline-none" />
+                <input name="name" value={form.name} onChange={handleChange} type="text" required placeholder="Your name" className="mt-3 w-full rounded-3xl border border-white/10 bg-[#050816]/70 px-4 py-3 text-white outline-none" />
               </label>
               <label className="block text-sm font-semibold text-slate-200">
                 Email
@@ -96,7 +96,7 @@ export default function ContactPage() {
               </label>
               <label className="block text-sm font-semibold text-slate-200">
                 Phone Number
-                <input name="phone_number" value={form.phone_number} onChange={handleChange} type="tel" required placeholder="+91 98765 43210" className="mt-3 w-full rounded-3xl border border-white/10 bg-[#050816]/70 px-4 py-3 text-white outline-none" />
+                <input name="phone" value={form.phone} onChange={handleChange} type="tel" required placeholder="+91 98765 43210" className="mt-3 w-full rounded-3xl border border-white/10 bg-[#050816]/70 px-4 py-3 text-white outline-none" />
               </label>
               <label className="block text-sm font-semibold text-slate-200">
                 Subject
