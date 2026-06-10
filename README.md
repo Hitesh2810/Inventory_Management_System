@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![IMS Banner](https://img.shields.io/badge/Inventory-Management-System-blue?style=for-the-badge)
-
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
 ![Django](https://img.shields.io/badge/Django-REST%20Framework-green?style=for-the-badge&logo=django)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=for-the-badge&logo=postgresql)
