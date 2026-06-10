@@ -8,7 +8,7 @@
 ![Django](https://img.shields.io/badge/Django-REST%20Framework-green?style=for-the-badge&logo=django)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=for-the-badge&logo=postgresql)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Styling-06B6D4?style=for-the-badge&logo=tailwindcss)
-![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=for-the-badge&logo=supabase)
+![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 
 </div>
 
@@ -141,16 +141,16 @@ The application provides:
 # 📸 Screenshots
 
 ## 🔐 Admin Login
-![Admin Login](./Screenshots/admin-login.jpeg)
+![Admin Login](./Screenshots/admin login.jpeg)
 
 ## 👨‍💼 Admin Dashboard
-![Admin Dashboard](./Screenshots/admin-dashboard.jpeg)
+![Admin Dashboard](./Screenshots/Admin dashboard.jpeg)
 
 ## ✨ Features Page
-![Features](./Screenshots/features.jpeg)
+![Features](./Screenshots/Features.jpeg)
 
 ## 🏠 User Home
-![User Home](./Screenshots/user-home.jpeg)
+![User Home](./Screenshots/User Home.jpeg)
 
 ---
 
@@ -177,7 +177,7 @@ The application provides:
 ## Database
 
 - 🐘 PostgreSQL
-- ⚡ Supabase
+- ⚡ MySQL
 
 ---
 
