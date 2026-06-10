@@ -7,11 +7,19 @@ import { FaEnvelope, FaBars, FaUserCircle, FaHome, FaBox, FaClipboardList, FaSho
 import { motion } from "framer-motion";
 import { getCartItems } from "../utils/cart";
 
-const navItems = [
+const authNavItems = [
   ["Home", "/user/home", FaHome],
-  ["Dashboard", "/user/dashboard", FaUserCircle],
   ["Products", "/user/products", FaBox],
   ["Orders", "/user/orders", FaClipboardList],
+  ["Contact Us", "/contact", FaEnvelope],
+  ["Cart", "/user/cart", FaShoppingCart],
+  ["Dashboard", "/user/dashboard", FaUserCircle],
+];
+
+const guestNavItems = [
+  ["Home", "/", FaHome],
+  ["Products", "/user/products", FaBox],
+  ["About Us", "/contact", FaEnvelope],
   ["Contact Us", "/contact", FaEnvelope],
 ];
 
@@ -20,6 +28,7 @@ export default function UserNavbar() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     const syncCartCount = () => {
@@ -37,6 +46,13 @@ export default function UserNavbar() {
       window.removeEventListener("storage", syncCartCount);
     };
   }, []);
+
+  useEffect(() => {
+    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    setAuthenticated(role === "user");
+  }, []);
+
+  const navItems = authenticated ? authNavItems : guestNavItems;
 
   const handleLogout = () => {
     localStorage.clear();
@@ -70,21 +86,18 @@ export default function UserNavbar() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Link href="/user/cart" className="relative rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/15">
-            <span className="inline-flex items-center gap-2">
-              <FaShoppingCart />
-              Cart
-            </span>
-            {cartCount > 0 ? (
-              <span className="absolute -right-2 -top-2 min-w-5 rounded-full bg-cyan-400 px-1.5 py-0.5 text-center text-xs font-black text-slate-950">
-                {cartCount}
-              </span>
-            ) : null}
-          </Link>
-          <button onClick={handleLogout} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/15">Logout</button>
-          <button className="rounded-full bg-cyan-500 px-3 py-3 text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:scale-105">
-            <FaUserCircle />
-          </button>
+          {authenticated ? (
+            <>
+              <button onClick={handleLogout} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/15">Logout</button>
+              <button className="rounded-full bg-cyan-500 px-3 py-3 text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:scale-105">
+                <FaUserCircle />
+              </button>
+            </>
+          ) : (
+            <Link href="/login" className="rounded-full bg-cyan-500 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400">
+              Login
+            </Link>
+          )}
         </div>
       </div>
 
@@ -99,7 +112,13 @@ export default function UserNavbar() {
                 </Link>
               );
             })}
-            <button onClick={handleLogout} className="mt-3 rounded-3xl border border-white/10 bg-white/10 px-4 py-3 text-left text-sm font-semibold text-slate-200 hover:bg-white/15">Logout</button>
+            {authenticated ? (
+              <button onClick={handleLogout} className="mt-3 rounded-3xl border border-white/10 bg-white/10 px-4 py-3 text-left text-sm font-semibold text-slate-200 hover:bg-white/15">Logout</button>
+            ) : (
+              <Link href="/login" onClick={() => setMenuOpen(false)} className="mt-3 rounded-3xl bg-cyan-500 px-4 py-3 text-left text-sm font-semibold text-slate-950 transition hover:brightness-110">
+                Login
+              </Link>
+            )}
           </div>
         </motion.div>
       ) : null}

@@ -98,7 +98,7 @@ export default function RegisterPage() {
           type="text"
           name="username"
           placeholder="Username"
-          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-black"
+          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-slate-900"
           onChange={handleChange}
         />
 
@@ -106,7 +106,7 @@ export default function RegisterPage() {
           type="email"
           name="email"
           placeholder="Email"
-          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-black"
+          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-slate-900"
           onChange={handleChange}
         />
 
@@ -114,7 +114,7 @@ export default function RegisterPage() {
           type="password"
           name="password"
           placeholder="Password"
-          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-black"
+          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-slate-900"
           onChange={handleChange}
         />
 
@@ -127,7 +127,7 @@ export default function RegisterPage() {
 
          <button
           onClick={handleGoogleRegister}
-          className="w-full mt-4 border border-gray-300 py-3 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-100"
+          className="w-full mt-4 border border-gray-300 py-3 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-100 text-slate-900"
         >
           <FcGoogle size={22} />
           Continue with Google

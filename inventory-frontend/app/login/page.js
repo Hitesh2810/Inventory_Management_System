@@ -168,7 +168,7 @@ export default function LoginPage() {
             name="username"
             placeholder="Enter Username"
             onChange={handleChange}
-            className="w-full border border-gray-300 p-4 rounded-xl mb-5 outline-none"
+            className="w-full border border-gray-300 p-4 rounded-xl mb-5 outline-none text-slate-900"
             required
           />
 
@@ -177,7 +177,7 @@ export default function LoginPage() {
             name="password"
             placeholder="Enter Password"
             onChange={handleChange}
-            className="w-full border border-gray-300 p-4 rounded-xl mb-5 outline-none"
+            className="w-full border border-gray-300 p-4 rounded-xl mb-5 outline-none text-slate-900"
             required
           />
 
@@ -197,7 +197,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full border py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-100 transition"
+            className="w-full border py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-100 transition text-slate-900"
           >
             <FcGoogle size={25} />
             Continue with Google

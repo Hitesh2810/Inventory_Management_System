@@ -7,8 +7,8 @@ import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 
 const publicLinks = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products" },
-  { label: "Orders", href: "/orders" },
+  { label: "Products", href: "/user/products" },
+  { label: "About Us", href: "/contact" },
   { label: "Contact Us", href: "/contact" },
 ];
 
