@@ -11,12 +11,11 @@ export default function ReportsPage() {
 
   const [sales, setSales] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [search, setSearch] = useState(() =>
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : ""
+  );
 
   const [revenue, setRevenue] = useState(0);
-
-  useEffect(() => {
-    fetchReportsData();
-  }, []);
 
   const fetchReportsData = async () => {
 
@@ -56,6 +55,10 @@ export default function ReportsPage() {
     }
   };
 
+  useEffect(() => {
+    fetchReportsData();
+  }, []);
+
   // PDF DOWNLOAD
 
   const downloadPDF = () => {
@@ -86,6 +89,9 @@ export default function ReportsPage() {
       title="Reports"
       subtitle="Inventory performance overview and analytics"
       icon={FaChartBar}
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Search Reports..."
     >
       <section className="mb-10 rounded-[32px] border border-white/10 bg-[#07112d]/80 p-8 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -153,7 +159,16 @@ export default function ReportsPage() {
               </tr>
             </thead>
             <tbody>
-              {sales.map((sale) => (
+              {sales
+                .filter((sale) => {
+                  const query = search.toLowerCase();
+                  return (
+                    String(sale.id || "").toLowerCase().includes(query) ||
+                    String(sale.product || "").toLowerCase().includes(query) ||
+                    String(sale.total_price || "").toLowerCase().includes(query)
+                  );
+                })
+                .map((sale) => (
                 <tr key={sale.id} className="border-t border-white/10 hover:bg-white/5 transition">
                   <td className="px-6 py-5">{sale.id}</td>
                   <td className="px-6 py-5">{sale.product}</td>

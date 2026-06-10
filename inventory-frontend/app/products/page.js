@@ -20,7 +20,9 @@ export default function ProductsPage() {
   (product) => product.stock <= 5
 ).length;
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() =>
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : ""
+  );
   const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -177,6 +179,9 @@ export default function ProductsPage() {
       title="Products Management"
       subtitle="Manage inventory products professionally"
       icon={FaBoxes}
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Search Products..."
     >
 
       <Toaster />

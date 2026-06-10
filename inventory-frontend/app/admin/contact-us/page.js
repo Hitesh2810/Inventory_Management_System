@@ -24,7 +24,9 @@ export default function AdminContactUsPage() {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() =>
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : ""
+  );
   const [statusFilter, setStatusFilter] = useState("all");
 
   async function fetchMessages() {

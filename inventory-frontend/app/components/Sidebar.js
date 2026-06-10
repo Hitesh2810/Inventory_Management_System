@@ -2,16 +2,7 @@
 "use client";
 
 import Link from "next/link";
-
-import {
-  FaHome,
-  FaBox,
-  FaTruck,
-  FaShoppingCart,
-  FaChartBar,
-  FaFileAlt,
-  FaUsers,
-} from "react-icons/fa";
+import { ADMIN_SIDEBAR_ITEMS } from "./adminSidebarItems";
 
 export default function Sidebar() {
 
@@ -27,61 +18,16 @@ export default function Sidebar() {
       {/* MENU */}
       <div className="mt-10 flex flex-col gap-3">
 
-        <Link
-          href="/admin/dashboard"
-          className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
-        >
-          <FaHome />
-          Dashboard
-        </Link>
-
-        <Link
-          href="/products"
-          className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
-        >
-          <FaBox />
-          Products
-        </Link>
-
-        <Link
-          href="/suppliers"
-          className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
-        >
-          <FaTruck />
-          Suppliers
-        </Link>
-
-        <Link
-          href="/orders"
-          className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
-        >
-          <FaShoppingCart />
-          Orders
-        </Link>
-
-        <Link
-          href="/sales"
-          className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
-        >
-          <FaChartBar />
-          Sales
-        </Link>
-
-        <Link
-          href="/reports"
-          className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
-        >
-          <FaFileAlt />
-          Reports
-        </Link>
-
-        <Link
-          href="/users"
-          className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
-        >
-          <FaUsers />
-          Users
-        </Link>
+        {ADMIN_SIDEBAR_ITEMS.map(([item, Icon, path]) => (
+          <Link
+            key={item}
+            href={path}
+            className="flex items-center gap-4 px-8 py-4 hover:bg-cyan-600 transition"
+          >
+            <Icon />
+            {item}
+          </Link>
+        ))}
 
       </div>
 

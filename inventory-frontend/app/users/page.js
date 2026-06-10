@@ -8,6 +8,9 @@ import { FaUsers } from "react-icons/fa";
 export default function UsersPage() {
 
   const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState(() =>
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : ""
+  );
 
 const fetchUsers = useCallback(async () => {
 
@@ -39,6 +42,9 @@ const fetchUsers = useCallback(async () => {
       title="Users Management"
       subtitle="View and manage user accounts"
       icon={FaUsers}
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Search Users..."
     >
       <section className="mb-10 rounded-[32px] border border-white/10 bg-[#07112d]/80 p-8 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -67,7 +73,15 @@ const fetchUsers = useCallback(async () => {
             </thead>
             <tbody>
               {Array.isArray(users) &&
-                users.map((user) => (
+                users
+                  .filter((user) => {
+                    const query = search.toLowerCase();
+                    return (
+                      String(user.username || "").toLowerCase().includes(query) ||
+                      String(user.email || "").toLowerCase().includes(query)
+                    );
+                  })
+                  .map((user) => (
                   <tr key={user.id} className="border-t border-white/10 hover:bg-white/5 transition">
                     <td className="px-6 py-5">{user.id}</td>
                     <td className="px-6 py-5">{user.username}</td>

@@ -4,14 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 
 import SalesChart from "@/app/components/SalesChart";
+import { ADMIN_SIDEBAR_ITEMS } from "@/app/components/adminSidebarItems";
 
 import { useRouter } from "next/navigation";
 
 import {
-  FaBell,
   FaBox,
   FaChair,
-  FaEnvelope,
   FaEye,
   FaHeadphones,
   FaMoon,
@@ -22,11 +21,9 @@ import {
   FaSignOutAlt,
   FaStar,
   FaUsers,
-  FaCog,
 } from "react-icons/fa";
 import {
   MdInventory,
-  MdReviews,
   MdWatch,
 } from "react-icons/md";
 
@@ -34,6 +31,8 @@ export default function AdminDashboard() {
 
   const router = useRouter();
 
+  const [theme, setTheme] = useState("dark");
+  const [dashboardSearch, setDashboardSearch] = useState("");
   const [productsCount, setProductsCount] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
   const [ordersCount, setOrdersCount] = useState(0);
@@ -131,6 +130,16 @@ useEffect(() => {
 
 }, [router]);
 
+useEffect(() => {
+
+  const loadTheme = setTimeout(() => {
+    setTheme(localStorage.getItem("admin_theme") || "dark");
+  }, 0);
+
+  return () => clearTimeout(loadTheme);
+
+}, []);
+
   const logout = () => {
 
   localStorage.clear();
@@ -138,6 +147,29 @@ useEffect(() => {
   router.push("/admin");
 
 };
+
+  const toggleTheme = () => {
+
+    const nextTheme = theme === "dark" ? "light" : "dark";
+
+    setTheme(nextTheme);
+    localStorage.setItem("admin_theme", nextTheme);
+
+  };
+
+  const isLightTheme = theme === "light";
+
+  const handleDashboardSearch = (event) => {
+
+    if (event.key !== "Enter") return;
+
+    const query = dashboardSearch.trim();
+
+    if (query) {
+      router.push(`/products?q=${encodeURIComponent(query)}`);
+    }
+
+  };
 
   const statCards = [
     {
@@ -228,9 +260,9 @@ useEffect(() => {
 
   return (
 
-    <div className="min-h-screen bg-[#050b20] text-white [background-image:radial-gradient(circle_at_18%_10%,rgba(0,132,255,0.22),transparent_32%),radial-gradient(circle_at_84%_14%,rgba(107,47,255,0.18),transparent_30%),linear-gradient(135deg,#061a3a_0%,#06102a_42%,#050817_100%)]">
+    <div className={`min-h-screen transition-colors ${isLightTheme ? "bg-slate-100 text-slate-950 [background-image:radial-gradient(circle_at_18%_10%,rgba(14,165,233,0.18),transparent_32%),radial-gradient(circle_at_84%_14%,rgba(99,102,241,0.12),transparent_30%),linear-gradient(135deg,#f8fafc_0%,#e0f2fe_42%,#f1f5f9_100%)]" : "bg-[#050b20] text-white [background-image:radial-gradient(circle_at_18%_10%,rgba(0,132,255,0.22),transparent_32%),radial-gradient(circle_at_84%_14%,rgba(107,47,255,0.18),transparent_30%),linear-gradient(135deg,#061a3a_0%,#06102a_42%,#050817_100%)]"}`}>
 
-      <aside className="fixed left-0 top-0 z-20 hidden h-screen w-[258px] border-r border-cyan-300/15 bg-[#061633]/95 shadow-2xl shadow-cyan-950/40 backdrop-blur-xl lg:flex lg:flex-col">
+      <aside className={`fixed left-0 top-0 z-20 hidden h-screen w-[258px] border-r shadow-2xl backdrop-blur-xl lg:flex lg:flex-col ${isLightTheme ? "border-slate-200 bg-white/95 shadow-slate-300/40" : "border-cyan-300/15 bg-[#061633]/95 shadow-cyan-950/40"}`}>
         <div className="flex items-center gap-3 px-5 py-5">
           <div className="grid h-11 w-11 place-items-center rounded-lg bg-gradient-to-br from-sky-500 to-blue-700 text-cyan-100 shadow-lg shadow-sky-500/30 ring-1 ring-cyan-200/30">
             <MdInventory size={25} />
@@ -243,21 +275,13 @@ useEffect(() => {
 
         <nav className="mt-2 flex flex-1 flex-col gap-2 px-4 text-[15px] font-bold">
           {[
-            ["Dashboard", FaBox, "/admin/dashboard", "bg-gradient-to-r from-cyan-500/35 to-blue-500/25 text-white ring-1 ring-cyan-400/70 shadow-lg shadow-cyan-600/15"],
-            ["Products", FaBox, "/products", ""],
-            ["Orders", FaShoppingCart, "/orders", ""],
-            ["Users", FaUsers, "/users", ""],
-            ["Suppliers", FaBox, "/suppliers", ""],
-            ["Sales", FaRupeeSign, "/sales", ""],
-            ["Reports", MdReviews, "/reports", ""],
-            ["Contact Us", FaEnvelope, "/admin/contact-us", ""],
-            ["Settings", FaCog, "/admin/dashboard", ""],
-          ].map(([item, Icon, path, active]) => (
+            ...ADMIN_SIDEBAR_ITEMS,
+          ].map(([item, Icon, path]) => (
             <button
               type="button"
               key={item}
               onClick={() => router.push(path)}
-              className={`flex w-full items-center gap-4 rounded-lg px-4 py-[11px] text-left text-slate-200 transition hover:bg-cyan-500/15 ${active}`}
+              className={`flex w-full items-center gap-4 rounded-lg px-4 py-[11px] text-left text-slate-200 transition hover:bg-cyan-500/15 ${item === "Dashboard" ? "bg-gradient-to-r from-cyan-500/35 to-blue-500/25 text-white ring-1 ring-cyan-400/70 shadow-lg shadow-cyan-600/15" : ""}`}
             >
               <Icon className="text-cyan-100" />
               {item}
@@ -265,7 +289,7 @@ useEffect(() => {
           ))}
         </nav>
 
-        <div className="m-4 rounded-xl border border-cyan-400/15 bg-[#071b40]/80 p-4 shadow-inner shadow-cyan-950/50">
+        <div className={`m-4 rounded-xl border p-4 shadow-inner ${isLightTheme ? "border-slate-200 bg-slate-100 text-slate-900 shadow-slate-200" : "border-cyan-400/15 bg-[#071b40]/80 shadow-cyan-950/50"}`}>
           <div className="flex items-center gap-3">
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/70" />
             <div>
@@ -277,35 +301,38 @@ useEffect(() => {
       </aside>
 
       <main className="lg:ml-[258px]">
-        <header className="sticky top-0 z-10 border-b border-white/10 bg-[#050c25]/88 px-5 py-4 shadow-lg shadow-black/20 backdrop-blur-xl xl:px-8">
+        <header className={`sticky top-0 z-10 border-b px-5 py-4 shadow-lg backdrop-blur-xl xl:px-8 ${isLightTheme ? "border-slate-200 bg-white/88 shadow-slate-300/30" : "border-white/10 bg-[#050c25]/88 shadow-black/20"}`}>
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <h1 className="text-[28px] font-black leading-8 tracking-wide text-white">Admin Dashboard</h1>
-              <p className="mt-1 text-sm font-medium text-slate-300">Welcome back, Admin! Here&apos;s what&apos;s happening with your inventory.</p>
+              <h1 className={`text-[28px] font-black leading-8 tracking-wide ${isLightTheme ? "text-slate-950" : "text-white"}`}>Admin Dashboard</h1>
+              <p className={`mt-1 text-sm font-medium ${isLightTheme ? "text-slate-600" : "text-slate-300"}`}>Welcome back, Admin! Here&apos;s what&apos;s happening with your inventory.</p>
             </div>
 
             <div className="flex flex-wrap items-center gap-4">
-              <div className="flex h-11 min-w-72 items-center gap-3 rounded-lg border border-blue-200/15 bg-[#071634]/70 px-4 text-slate-400 shadow-inner shadow-black/20 lg:min-w-[470px]">
+              <div className={`flex h-11 min-w-72 items-center gap-3 rounded-lg border px-4 shadow-inner lg:min-w-[470px] ${isLightTheme ? "border-slate-200 bg-white/80 text-slate-500 shadow-slate-200" : "border-blue-200/15 bg-[#071634]/70 text-slate-400 shadow-black/20"}`}>
                 <FaSearch />
-                <span className="text-sm">Search anything...</span>
+                <input
+                  type="text"
+                  value={dashboardSearch}
+                  onChange={(event) => setDashboardSearch(event.target.value)}
+                  onKeyDown={handleDashboardSearch}
+                  placeholder="Search anything..."
+                  className={`w-full bg-transparent text-sm outline-none ${isLightTheme ? "text-slate-900 placeholder:text-slate-500" : "text-white placeholder:text-slate-400"}`}
+                />
               </div>
-              <button className="relative grid h-11 w-11 place-items-center rounded-lg border border-white/10 bg-transparent text-slate-200">
-                <FaBell />
-                <span className="absolute right-2 top-1 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-[10px] font-bold">3</span>
-              </button>
-              <button className="grid h-11 w-11 place-items-center rounded-lg border border-white/10 bg-transparent text-slate-200">
+              <button onClick={toggleTheme} className={`grid h-11 w-11 place-items-center rounded-lg border bg-transparent transition ${isLightTheme ? "border-slate-300 text-slate-700 hover:border-cyan-500 hover:text-cyan-700" : "border-white/10 text-slate-200 hover:border-cyan-400/70 hover:text-cyan-200"}`}>
                 <FaMoon />
               </button>
-              <div className="flex items-center gap-3 border-l border-white/10 pl-4">
+              <div className={`flex items-center gap-3 border-l pl-4 ${isLightTheme ? "border-slate-300" : "border-white/10"}`}>
                 <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-rose-400 to-blue-500 font-bold ring-2 ring-white/15">A</div>
                 <div className="hidden sm:block">
                   <p className="text-sm font-bold">Admin</p>
-                  <p className="text-xs text-slate-300">Super Admin</p>
+                  <p className={`text-xs ${isLightTheme ? "text-slate-500" : "text-slate-300"}`}>Super Admin</p>
                 </div>
               </div>
               <button
                 onClick={logout}
-                className="grid h-11 w-11 place-items-center rounded-lg border border-white/15 bg-[#071634]/70 text-slate-200 transition hover:border-rose-400/70 hover:text-rose-300"
+                className={`grid h-11 w-11 place-items-center rounded-lg border transition hover:border-rose-400/70 hover:text-rose-300 ${isLightTheme ? "border-slate-300 bg-white/80 text-slate-700" : "border-white/15 bg-[#071634]/70 text-slate-200"}`}
               >
                 <FaSignOutAlt />
               </button>
@@ -396,7 +423,7 @@ useEffect(() => {
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-5 xl:grid-cols-[1.8fr_0.65fr_0.9fr]">
+          <section className="grid grid-cols-1 gap-5 xl:grid-cols-[1.8fr_1.55fr]">
             <div className="rounded-xl border border-white/10 bg-[#0b1b43]/75 p-5 shadow-xl shadow-black/20">
               <h2 className="mb-4 text-base font-black">Recent Orders</h2>
               <div className="overflow-x-auto rounded-lg">
@@ -459,31 +486,6 @@ useEffect(() => {
               <button className="mt-4 w-full rounded-lg border border-cyan-400/30 bg-cyan-500/10 py-2 text-sm font-bold text-violet-300 shadow-inner shadow-cyan-950/50">View All Products</button>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-[#101943]/78 p-5 shadow-xl shadow-black/20">
-              <h2 className="mb-4 text-base font-black">Recent Reviews</h2>
-              <div className="space-y-4">
-                {[
-                  ["John Doe", "Great product quality!", "2m ago", "A"],
-                  ["Jane Smith", "Very satisfied with the service.", "10m ago", "J"],
-                  ["Robert Brown", "Fast delivery and good support.", "30m ago", "R"],
-                ].map(([name, text, time, avatar]) => (
-                  <div key={name} className="flex gap-3">
-                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange-300 to-blue-500 font-bold">{avatar}</div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="font-bold">{name}</p>
-                        <span className="text-xs text-slate-300">{time}</span>
-                      </div>
-                      <p className="text-sm text-slate-300">{text}</p>
-                      <div className="mt-1 flex text-amber-400">
-                        {[1, 2, 3, 4, 5].map((star) => <FaStar key={star} size={12} />)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button className="mt-4 w-full rounded-lg border border-cyan-400/30 bg-cyan-500/10 py-2 text-sm font-bold text-violet-300 shadow-inner shadow-cyan-950/50">View All Reviews</button>
-            </div>
           </section>
         </div>
       </main>

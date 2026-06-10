@@ -12,20 +12,15 @@ export default function SalesPage() {
 
   const [products, setProducts] = useState([]);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() =>
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : ""
+  );
 
   const [formData, setFormData] = useState({
     product: "",
     quantity_sold: "",
     total_price: "",
   });
-
-  useEffect(() => {
-
-    fetchSales();
-    fetchProducts();
-
-  }, []);
 
   // FETCH SALES
   const fetchSales = async () => {
@@ -62,6 +57,13 @@ export default function SalesPage() {
 
     }
   };
+
+  useEffect(() => {
+
+    fetchSales();
+    fetchProducts();
+
+  }, []);
 
   // HANDLE INPUT
   const handleChange = (e) => {
@@ -134,6 +136,9 @@ export default function SalesPage() {
       title="Sales Management"
       subtitle="Manage all sales transactions with dashboard-style analytics"
       icon={FaRupeeSign}
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Search Sales..."
     >
       <Toaster />
 
@@ -168,7 +173,7 @@ export default function SalesPage() {
             name="product"
             value={formData.product}
             onChange={handleChange}
-            className="rounded-3xl border border-white/10 bg-[#03101f]/bg-opacity-70 p-4 text-white outline-none transition focus:border-cyan-400/70"
+            className="rounded-3xl border border-white/10 bg-[#03101f]/80 p-4 text-white outline-none transition focus:border-cyan-400/70"
             required
           >
             <option value="" className="text-slate-300">Select Product</option>
@@ -222,7 +227,17 @@ export default function SalesPage() {
               </tr>
             </thead>
             <tbody>
-              {sales.map((sale) => (
+              {sales
+                .filter((sale) => {
+                  const query = search.toLowerCase();
+                  return (
+                    String(sale.id || "").toLowerCase().includes(query) ||
+                    String(sale.product || "").toLowerCase().includes(query) ||
+                    String(sale.quantity_sold || "").toLowerCase().includes(query) ||
+                    String(sale.total_price || "").toLowerCase().includes(query)
+                  );
+                })
+                .map((sale) => (
                 <tr key={sale.id} className="border-t border-white/10 hover:bg-white/5 transition">
                   <td className="px-6 py-5">{sale.product}</td>
                   <td className="px-6 py-5">{sale.quantity_sold}</td>

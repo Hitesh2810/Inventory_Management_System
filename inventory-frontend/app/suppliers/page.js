@@ -17,7 +17,9 @@ export default function SuppliersPage() {
 
   const [suppliers, setSuppliers] = useState([]);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() =>
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : ""
+  );
 
   const [editingId, setEditingId] = useState(null);
 
@@ -27,10 +29,6 @@ export default function SuppliersPage() {
     phone: "",
     address: "",
   });
-
-  useEffect(() => {
-    fetchSuppliers();
-  }, []);
 
   // FETCH SUPPLIERS
   const fetchSuppliers = async () => {
@@ -49,6 +47,10 @@ export default function SuppliersPage() {
 
     }
   };
+
+  useEffect(() => {
+    fetchSuppliers();
+  }, []);
 
   // HANDLE INPUT
   const handleChange = (e) => {
@@ -161,6 +163,9 @@ export default function SuppliersPage() {
       title="Suppliers Management"
       subtitle="Manage all suppliers professionally"
       icon={FaTruck}
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Search Suppliers..."
     >
 
       <Toaster />

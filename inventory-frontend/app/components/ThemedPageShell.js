@@ -4,16 +4,15 @@ import { useRouter } from "next/navigation";
 import {
   FaBell,
   FaBox,
-  FaCog,
   FaMoon,
   FaRupeeSign,
   FaSearch,
   FaShoppingCart,
   FaSignOutAlt,
   FaStar,
-  FaUsers,
 } from "react-icons/fa";
 import { MdInventory, MdReviews } from "react-icons/md";
+import { ADMIN_SIDEBAR_ITEMS } from "./adminSidebarItems";
 
 export default function ThemedPageShell({
   title,
@@ -23,6 +22,9 @@ export default function ThemedPageShell({
   userName = "Admin",
   userRole = "Super Admin",
   userPanel = false,
+  searchValue = "",
+  onSearchChange,
+  searchPlaceholder = "Search anything...",
 }) {
   const router = useRouter();
 
@@ -41,17 +43,7 @@ export default function ThemedPageShell({
         ["Contact Us", MdReviews, "/user/contact"],
         ["Subscription", FaStar, "/user/subscription"],
       ]
-    : [
-        ["Dashboard", FaBox, "/admin/dashboard"],
-        ["Products", FaBox, "/products"],
-        ["Orders", FaShoppingCart, "/orders"],
-        ["Users", FaUsers, "/users"],
-        ["Suppliers", FaBox, "/suppliers"],
-        ["Sales", FaRupeeSign, "/sales"],
-        ["Reports", MdReviews, "/reports"],
-        ["Reviews", FaStar, "/reviews"],
-        ["Settings", FaCog, "/settings"],
-      ];
+    : ADMIN_SIDEBAR_ITEMS;
 
   return (
     <div className="min-h-screen bg-[#050b20] text-white [background-image:radial-gradient(circle_at_18%_10%,rgba(0,132,255,0.22),transparent_32%),radial-gradient(circle_at_84%_14%,rgba(107,47,255,0.18),transparent_30%),linear-gradient(135deg,#061a3a_0%,#06102a_42%,#050817_100%)]">
@@ -121,7 +113,17 @@ export default function ThemedPageShell({
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex h-11 min-w-72 items-center gap-3 rounded-lg border border-blue-200/15 bg-[#071634]/70 px-4 text-slate-400 shadow-inner shadow-black/20 lg:min-w-[360px]">
                 <FaSearch />
-                <span className="text-sm">Search anything...</span>
+                {onSearchChange ? (
+                  <input
+                    type="text"
+                    value={searchValue}
+                    onChange={(event) => onSearchChange(event.target.value)}
+                    placeholder={searchPlaceholder}
+                    className="w-full bg-transparent text-sm text-white outline-none placeholder:text-slate-400"
+                  />
+                ) : (
+                  <span className="text-sm">{searchPlaceholder}</span>
+                )}
               </div>
               <button className="relative grid h-11 w-11 place-items-center rounded-lg border border-white/10 bg-transparent text-slate-200">
                 <FaBell />

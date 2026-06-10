@@ -18,7 +18,9 @@ export default function OrdersPage() {
 
   const [users, setUsers] = useState([]);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() =>
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") || "" : ""
+  );
 
   const [formData, setFormData] = useState({
     user: "",
@@ -26,13 +28,6 @@ export default function OrdersPage() {
     order_status: "pending",
     payment_status: "unpaid",
   });
-
-  useEffect(() => {
-
-    fetchOrders();
-    fetchUsers();
-
-  }, []);
 
   // FETCH ORDERS
   const fetchOrders = async () => {
@@ -85,6 +80,13 @@ export default function OrdersPage() {
 
     }
   };
+
+  useEffect(() => {
+
+    fetchOrders();
+    fetchUsers();
+
+  }, []);
 
   // HANDLE INPUT
   const handleChange = (e) => {
@@ -160,6 +162,9 @@ export default function OrdersPage() {
       title="Orders Management"
       subtitle="Track all customer orders"
       icon={FaShoppingCart}
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Search Orders..."
     >
 
       <Toaster />
@@ -221,11 +226,15 @@ export default function OrdersPage() {
 
             <tbody>
               {orders
-                .filter((order) =>
-                  order.order_status
-                    .toLowerCase()
-                    .includes(search.toLowerCase())
-                )
+                .filter((order) => {
+                  const query = search.toLowerCase();
+                  return (
+                    String(order.id || "").toLowerCase().includes(query) ||
+                    String(order.username || "").toLowerCase().includes(query) ||
+                    String(order.user || "").toLowerCase().includes(query) ||
+                    String(order.order_status || "").toLowerCase().includes(query)
+                  );
+                })
                 .map((order) => (
                   <tr key={order.id} className="ims-table-row">
                     <td className="p-5">{order.user}</td>
