@@ -138,6 +138,22 @@ The application provides:
 
 ---
 
+# 📸 Screenshots
+
+## 🔐 Admin Login
+![Admin Login](./Screenshots/admin-login.jpeg)
+
+## 👨‍💼 Admin Dashboard
+![Admin Dashboard](./Screenshots/admin-dashboard.jpeg)
+
+## ✨ Features Page
+![Features](./Screenshots/features.jpeg)
+
+## 🏠 User Home
+![User Home](./Screenshots/user-home.jpeg)
+
+---
+
 # 🛠️ Tech Stack
 
 ## Frontend
@@ -441,7 +457,7 @@ This project is licensed under the MIT License.
 
 🎓 Amrita Vishwa Vidyapeetham
 
-📧 Contact: your-email@example.com
+📧 Contact: hiteshkumarsairam@gmail.com
 
 🔗 GitHub: https://github.com/Hitesh2810
 
