@@ -72,7 +72,7 @@ export default function RegisterPage() {
 
     alert("Google Registration Successful");
 
-    router.push("/user/dashboard");
+    router.push("/user/home");
 
   } catch (error) {
 

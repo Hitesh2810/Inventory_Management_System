@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { FaHome, FaBox, FaShoppingCart, FaWallet, FaStar, FaEnvelope, FaGift, FaUser, FaSignOutAlt } from "react-icons/fa";
 
 const items = [
-  ["Home", "/user/dashboard", FaHome],
+  ["Home", "/user/home", FaHome],
   ["Products", "/user/products", FaBox],
   ["Orders", "/user/orders", FaShoppingCart],
   ["Payments", "/user/payments", FaWallet],

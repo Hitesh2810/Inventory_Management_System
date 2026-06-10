@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/', include('orders.urls')),
     path('api/', include('sales.urls')),
     path('api/', include('reports.urls')),
+    path('api/', include('contacts.urls')),
     
 
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

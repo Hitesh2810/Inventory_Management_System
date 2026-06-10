@@ -1,24 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FaBell, FaEnvelope, FaBars, FaUserCircle, FaHome, FaBox, FaClipboardList, FaShoppingCart } from "react-icons/fa";
+import { FaEnvelope, FaBars, FaUserCircle, FaHome, FaBox, FaClipboardList, FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { getCartItems } from "../utils/cart";
 
 const navItems = [
   ["Home", "/user/home", FaHome],
+  ["Dashboard", "/user/dashboard", FaUserCircle],
   ["Products", "/user/products", FaBox],
-  ["Cart", "/user/cart", FaShoppingCart],
   ["Orders", "/user/orders", FaClipboardList],
   ["Contact Us", "/contact", FaEnvelope],
-  ["Dashboard", "/user/dashboard", FaUserCircle],
 ];
 
-export default function UserNavbar({ toggleSidebar }) {
+export default function UserNavbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const syncCartCount = () => {
+      setCartCount(
+        getCartItems().reduce((total, item) => total + Number(item.quantity || 0), 0)
+      );
+    };
+
+    syncCartCount();
+    window.addEventListener("ims-cart-updated", syncCartCount);
+    window.addEventListener("storage", syncCartCount);
+
+    return () => {
+      window.removeEventListener("ims-cart-updated", syncCartCount);
+      window.removeEventListener("storage", syncCartCount);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -52,6 +70,17 @@ export default function UserNavbar({ toggleSidebar }) {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <Link href="/user/cart" className="relative rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/15">
+            <span className="inline-flex items-center gap-2">
+              <FaShoppingCart />
+              Cart
+            </span>
+            {cartCount > 0 ? (
+              <span className="absolute -right-2 -top-2 min-w-5 rounded-full bg-cyan-400 px-1.5 py-0.5 text-center text-xs font-black text-slate-950">
+                {cartCount}
+              </span>
+            ) : null}
+          </Link>
           <button onClick={handleLogout} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/15">Logout</button>
           <button className="rounded-full bg-cyan-500 px-3 py-3 text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:scale-105">
             <FaUserCircle />

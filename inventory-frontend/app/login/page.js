@@ -20,7 +20,7 @@ export default function LoginPage() {
   useEffect(() => {
     const role = localStorage.getItem("role");
     if (role === "user") {
-      router.push("/user/dashboard");
+      router.push("/user/home");
     } else if (role === "admin") {
       router.push("/admin/dashboard");
     }
@@ -52,11 +52,21 @@ export default function LoginPage() {
 
       localStorage.setItem("role", "user");
       localStorage.setItem("username", res.data.username);
+      localStorage.setItem(
+        "ims_user_activity",
+        JSON.stringify([
+          {
+            id: Date.now(),
+            activity: "Logged In",
+            createdAt: new Date().toISOString(),
+          },
+        ])
+      );
 
       toast.success("Login Successful");
-      router.push("/user/dashboard");
+      router.push("/user/home");
 
-    } catch (error) {
+    } catch {
 
       toast.error("Invalid Credentials");
 
@@ -89,11 +99,22 @@ export default function LoginPage() {
         "user"
       );
 
+      localStorage.setItem(
+        "ims_user_activity",
+        JSON.stringify([
+          {
+            id: Date.now(),
+            activity: "Logged In",
+            createdAt: new Date().toISOString(),
+          },
+        ])
+      );
+
       toast.success(
         "Google Login Successful"
       );
 
-      router.push("/user/dashboard");
+      router.push("/user/home");
 
     } catch (error) {
 
@@ -183,7 +204,7 @@ export default function LoginPage() {
           </button>
 
           <p className="text-center mt-8 text-gray-500">
-            Don't have an account?
+            Don&apos;t have an account?
             <span
               onClick={() => router.push("/register")}
               className="text-cyan-600 font-bold cursor-pointer ml-2"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import ThemedPageShell from "@/app/components/ThemedPageShell";
 import { FaUsers } from "react-icons/fa";
@@ -9,11 +9,7 @@ export default function UsersPage() {
 
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-const fetchUsers = async () => {
+const fetchUsers = useCallback(async () => {
 
   try {
 
@@ -31,7 +27,12 @@ const fetchUsers = async () => {
 
   }
 
-};
+}, []);
+
+  useEffect(() => {
+    const loadUsers = setTimeout(fetchUsers, 0);
+    return () => clearTimeout(loadUsers);
+  }, [fetchUsers]);
 
   return (
     <ThemedPageShell
@@ -61,6 +62,7 @@ const fetchUsers = async () => {
                 <th className="px-6 py-4">Username</th>
                 <th className="px-6 py-4">Email</th>
                 <th className="px-6 py-4">Role</th>
+                <th className="px-6 py-4">Address</th>
               </tr>
             </thead>
             <tbody>
@@ -71,6 +73,16 @@ const fetchUsers = async () => {
                     <td className="px-6 py-5">{user.username}</td>
                     <td className="px-6 py-5">{user.email}</td>
                     <td className="px-6 py-5">{user.role}</td>
+                    <td className="px-6 py-5 whitespace-pre-line">
+                      {[
+                        user.address_line1,
+                        user.address_line2,
+                        user.address_city,
+                        user.address_state,
+                        user.address_country,
+                        user.address_pincode,
+                      ].filter(Boolean).join(",\n") || "-"}
+                    </td>
                   </tr>
                 ))}
             </tbody>

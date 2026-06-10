@@ -11,7 +11,7 @@ export default function UserHomePage() {
     const role = localStorage.getItem("role");
 
     if (role === "user") {
-      router.push("/user/dashboard");
+      router.push("/user/home");
       return;
     }
 

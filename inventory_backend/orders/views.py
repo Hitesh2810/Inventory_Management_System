@@ -82,7 +82,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 order = Order.objects.create(
                     user=user,
                     total_amount=total_amount,
-                    order_status="completed",
+                    order_status="pending",
                     payment_status="paid",
                 )
 

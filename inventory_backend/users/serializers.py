@@ -11,4 +11,12 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "password",
             "role",
+            "address_full_name",
+            "address_phone",
+            "address_line1",
+            "address_line2",
+            "address_city",
+            "address_state",
+            "address_country",
+            "address_pincode",
         ]

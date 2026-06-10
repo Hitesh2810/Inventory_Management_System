@@ -1,6 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (localStorage.getItem("role") === "user") {
+      router.push("/user/home");
+    }
+  }, [router]);
+
   return (
     <div className="min-h-screen bg-[#050816] text-white flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-5xl rounded-[40px] border border-white/10 bg-white/5 p-10 shadow-2xl shadow-cyan-950/25 backdrop-blur-xl">
@@ -16,10 +28,10 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-wrap gap-4">
-              <Link href="/products" className="rounded-full bg-cyan-500 px-8 py-4 text-base font-semibold text-slate-950 transition hover:bg-cyan-400">
+              <Link href="/user/products" className="rounded-full bg-cyan-500 px-8 py-4 text-base font-semibold text-slate-950 transition hover:bg-cyan-400">
                 Browse Products
               </Link>
-              <Link href="/orders" className="rounded-full border border-white/10 bg-white/5 px-8 py-4 text-base font-semibold text-white transition hover:border-cyan-400/40 hover:text-cyan-200">
+              <Link href="/user/orders" className="rounded-full border border-white/10 bg-white/5 px-8 py-4 text-base font-semibold text-white transition hover:border-cyan-400/40 hover:text-cyan-200">
                 View Orders
               </Link>
             </div>

@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const statusStyles = {
-  completed: "bg-emerald-300/15 text-emerald-200",
   pending: "bg-amber-300/15 text-amber-200",
+  processing: "bg-sky-300/15 text-sky-200",
+  shipped: "bg-indigo-300/15 text-indigo-200",
+  delivered: "bg-emerald-300/15 text-emerald-200",
   cancelled: "bg-rose-300/15 text-rose-200",
 };
 
@@ -56,7 +58,7 @@ export default function UserOrdersPage() {
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
                   <span className={`rounded-lg px-4 py-2 text-sm font-semibold ${statusStyles[order.order_status] || "bg-sky-500/15 text-sky-200"}`}>
-                    {order.order_status}
+                    {order.order_status || "pending"}
                   </span>
                   <span className="rounded-lg bg-cyan-500/15 px-4 py-2 text-sm font-black text-cyan-100">
                     &#8377;{Number(order.total_amount || 0).toLocaleString("en-IN")}
@@ -101,7 +103,7 @@ export default function UserOrdersPage() {
 
           {orders.length === 0 ? (
             <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-slate-300">
-              No orders placed yet.
+              No orders yet
             </div>
           ) : null}
         </div>
