@@ -139,16 +139,16 @@ The application provides:
 # 📸 Screenshots
 
 ## 🔐 Admin Login
-![Admin Login](./Screenshots/b.jpeg)
+![Admin Login](./Screenshots/b1.jpeg)
 
 ## 👨‍💼 Admin Dashboard
-![Admin Dashboard](./Screenshots/a.jpeg)
+![Admin Dashboard](./Screenshots/a1.jpeg)
 
 ## ✨ Features Page
-![Features](./Screenshots/Features.jpeg)
+![Features](./Screenshots/Features1.jpeg)
 
 ## 🏠 User Home
-![User Home](./Screenshots/c.jpeg)
+![User Home](./Screenshots/c1.jpeg)
 
 ## 🏠 User Dashboard
 ![User Home](./Screenshots/5.png)
@@ -157,7 +157,7 @@ The application provides:
 
 # 🛠️ Tech Stack
 
-## Frontend
+## Frontend Tech
 
 - ⚛️ Next.js 15
 - 🎨 Tailwind CSS
@@ -168,7 +168,7 @@ The application provides:
 - 🔄 React Query
 - 🎯 Lucide Icons
 
-## Backend
+## Backend Tech
 
 - 🐍 Django
 - 🚀 Django REST Framework
