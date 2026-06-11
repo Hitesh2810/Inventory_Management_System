@@ -150,6 +150,9 @@ The application provides:
 ## 🏠 User Home
 ![User Home](./Screenshots/c.jpeg)
 
+## 🏠 User Dashboard
+![User Home](./Screenshots/5.png)
+
 ---
 
 # 🛠️ Tech Stack
